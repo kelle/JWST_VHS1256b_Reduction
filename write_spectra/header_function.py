@@ -1,8 +1,9 @@
-from pandas import to_datetime
-from astropy.time import Time
 from datetime import date
 import astropy.io.fits as fits
 import numpy as np
+from astropy.time import Time
+from pandas import to_datetime
+
 
 def compile_header(wavelength_data, **spectra_data_info):
     """Creates a header from a dictionary of values. """
@@ -13,7 +14,7 @@ def compile_header(wavelength_data, **spectra_data_info):
 
 
     header = fits.Header()
-    header.set('EXTNAME', 'PRIMARY', 'name of this extension')
+    #  header.set('EXTNAME', 'PRIMARY', 'name of this extension')
 
     try:
         header.set('VOCLASS', spectra_data_info['voclass'], 'VO Data Model')
@@ -22,7 +23,7 @@ def compile_header(wavelength_data, **spectra_data_info):
 
     # Target Data
     try:
-        header.set('OBJECT', spectra_data_info['object_name'], 'Name of observed object')
+        header.set('OBJECT', spectra_data_info['object'], 'Name of observed object')
     except KeyError:
         pass
 
@@ -83,8 +84,8 @@ def compile_header(wavelength_data, **spectra_data_info):
 
     # Wavelength info
     w_units = wavelength_data.unit
-    w_min = min(wavelength_data).astype(np.single)
-    w_max = max(wavelength_data).astype(np.single)
+    w_min = min(wavelength_data).astype(np.single).value
+    w_max = max(wavelength_data).astype(np.single).value
     width = (w_max - w_min).astype(np.single)
     w_mid = ((w_max + w_min)/2).astype(np.single)
 
