@@ -55,7 +55,7 @@ header = compile_header(NIRspec_wavelength, **NIRSpec_dict)
 
 print('BEFORE:')
 print(repr(header))
-spec1d_NIR.meta.update(header)
+spec1d_NIR.meta['header'] = header
 
 # for key, val in spec1d_NIR.meta.items():
 #    print(key, val, type(val))
@@ -72,7 +72,7 @@ spec1d_NIR.meta.update(header)
 # Write out the MEF to a file
 #spectrum_mef.writeto(fits_filename_NIR, output_verify="exception")
 try:
-    spec1d_NIR.write(fits_filename_NIR, format='tabular-fits', update_header= True, overwrite=True)
+    spec1d_NIR.write(fits_filename_NIR, format='tabular-fits', overwrite=True)
     print(f'Wrote out {fits_filename_NIR}')
 except:
     raise IOError
@@ -85,7 +85,7 @@ header_NIR_meta = spec1d_NIR_rt.meta['header']
 pprint.pprint(header_NIR_meta)
 
 print('FITS:')
-header_NIR_fits = fits.getheader(fits_filename_NIR)
+header_NIR_fits = fits.getheader(fits_filename_NIR, 1)
 print(repr(header_NIR_fits))
 
 
